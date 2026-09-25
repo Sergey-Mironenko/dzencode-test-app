@@ -23,7 +23,7 @@ export default function ClientClock() {
       </span>
       <div className="flex items-center gap-2 font-medium">
         <span>{format(time, 'dd MMM, yyyy', { locale: ru })}</span>
-        <span className="flex items-center text-emerald-600 gap-1 font-semibold">
+        <span className="flex items-center text-lime-600 gap-1 font-semibold">
           <Clock className="w-3.5 h-3.5" />
           {format(time, 'HH:mm:ss')}
         </span>

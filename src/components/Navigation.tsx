@@ -17,7 +17,7 @@ export default function Navigation() {
   ];
 
   return (
-    <aside className="w-64 bg-slate-50 border-r border-gray-200 flex flex-col items-center py-8 min-h-[calc(100vh-4rem)]">
+    <aside className="w-64 bg-slate-50 border-r border-gray-200 flex flex-col items-center py-8 min-h-[calc(100vh-4rem)] shadow-[4px_0_24px_rgba(0,0,0,0.08)]">
       {/* User profile */}
       <div className="relative mb-10 group cursor-pointer">
         <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-gray-200 shadow-md relative">
@@ -44,8 +44,8 @@ export default function Navigation() {
               href={link.href}
               className={`text-xs font-bold tracking-wide transition-colors py-1 relative ${
                 isActive
-                  ? 'text-emerald-600 border-b-2 border-emerald-600'
-                  : 'text-gray-700 hover:text-emerald-600'
+                  ? 'text-lime-600 border-b-2 border-lime-600'
+                  : 'text-gray-700 hover:text-lime-600'
               }`}
             >
               {link.name}
