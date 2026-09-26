@@ -161,7 +161,7 @@ export default function OrdersPage() {
                 <div key={product.id} className="flex items-center gap-4 p-2 hover:bg-gray-50 border-b border-gray-50 transition rounded-md group">
                   
                 {/* Status indicator */}
-                <div className={`w-2 h-2 rounded-full flex-shrink-0 ${product.status === 'Свободен' ? 'bg-yellow-300' : 'bg-gray-400'}`} />
+                <div className={`w-2 h-2 rounded-full flex-shrink-0 ${product.status === 'Свободен' ? 'bg-yellow-300' : 'bg-gray-600'}`} />
 
                 {/* Product Photo */}
                 <div className="relative w-12 h-12 flex-shrink-0 bg-white border border-gray-200 rounded p-1">
@@ -170,12 +170,12 @@ export default function OrdersPage() {
 
                 {/* Product information */}
                 <div className="flex-1">
-                <p className="text-sm text-gray-700 font-medium line-clamp-1 underline decoration-gray-300 decoration-2 underline-offset-2">{product.title}</p>
+                <p className="text-sm text-gray-600 font-medium line-clamp-1 underline decoration-gray-300 decoration-2 underline-offset-2">{product.title}</p>
                 <p className="text-xs text-gray-400 mt-0.5">SN-{product.serialNumber}</p>
                 </div>
 
                 {/* Status in text */}
-                <div className={`w-24 text-xs font-semibold ${product.status === 'Свободен' ? 'text-yellow-300' : 'text-gray-400'}`}>
+                <div className={`w-24 text-xs font-semibold ${product.status === 'Свободен' ? 'text-yellow-300' : 'text-gray-600'}`}>
                 {product.status}
                 </div>
                   

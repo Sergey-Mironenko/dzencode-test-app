@@ -23,6 +23,7 @@ export interface Product {
   date: string;
   status?: 'Свободен' | 'В ремонте';
   owner?: string | null;
+  groupName?: string | null;
 }
 
 export interface Order {

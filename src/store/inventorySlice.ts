@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Order, Product } from '@/types';
+import { Order, Product } from '@/types'; // Убедись, что в types.ts добавлены groupName и owner
 
 const initialOrders: Order[] = [
   { id: 1, title: 'Длинное предлинное длиннющее название прихода', date: '2017-04-06 12:09:33', description: 'desc' },
@@ -25,7 +25,8 @@ const initialProducts: Product[] = [
     order: 1,
     date: '2017-06-29 12:09:33',
     status: 'Свободен',
-    owner: null
+    owner: null,
+    groupName: 'Длинное предлинное длиннющее название группы'
   },
   {
     id: 2,
@@ -43,7 +44,8 @@ const initialProducts: Product[] = [
     order: 1,
     date: '2017-06-29 12:09:33',
     status: 'В ремонте',
-    owner: null
+    owner: null,
+    groupName: null
   },
   {
     id: 3,
@@ -61,7 +63,8 @@ const initialProducts: Product[] = [
     order: 2,
     date: '2017-06-29 12:09:33',
     status: 'Свободен',
-    owner: 'Христорождественский Александр'
+    owner: 'Христорождественский Александр',
+    groupName: 'Длинное предлинное длиннющее название группы'
   },
   {
     id: 4,
@@ -79,7 +82,8 @@ const initialProducts: Product[] = [
     order: 3,
     date: '2017-06-29 12:09:33',
     status: 'В ремонте',
-    owner: null
+    owner: null,
+    groupName: null
   }
 ];
 
