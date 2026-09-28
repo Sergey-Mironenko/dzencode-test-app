@@ -23,6 +23,7 @@ export default function Navigation() {
         <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-gray-200 shadow-md relative">
           <Image
             src="/avatar.jpg"
+            sizes="96px"
             alt="User Avatar"
             fill
             className="object-cover"
@@ -42,9 +43,9 @@ export default function Navigation() {
             <Link
               key={link.href}
               href={link.href}
-              className={`text-xs font-bold tracking-wide transition-colors py-1 relative ${
+              className={`text-[14px] font-bold tracking-wide transition-colors py-1 m-1 relative ${
                 isActive
-                  ? 'text-lime-600 border-b-2 border-lime-600'
+                  ? 'text-gray-700 border-b-3 border-lime-600'
                   : 'text-gray-700 hover:text-lime-600'
               }`}
             >

@@ -17,14 +17,14 @@ export default function ClientClock() {
   if (!time) return <div className="w-32 h-8" />;
 
   return (
-    <div className="flex flex-col items-end">
+    <div className="flex flex-col items-start">
       <span className="capitalize font-medium text-xs text-gray-500">
         {format(time, 'EEEE', { locale: ru })}
       </span>
-      <div className="flex items-center gap-2 font-medium">
-        <span>{format(time, 'dd MMM, yyyy', { locale: ru })}</span>
-        <span className="flex items-center text-lime-600 gap-1 font-semibold">
-          <Clock className="w-3.5 h-3.5" />
+      <div className="flex items-center gap-5 font-medium">
+        <span className='w-[100px]'>{format(time, 'dd MMM, yyyy', { locale: ru })}</span>
+        <span className="flex items-center gap-2 font-medium w-[90px]">
+          <Clock className="w-3.5 h-3.5 text-lime-600 font-bold" />
           {format(time, 'HH:mm:ss')}
         </span>
       </div>

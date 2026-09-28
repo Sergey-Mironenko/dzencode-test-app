@@ -25,7 +25,8 @@ const initialProducts: Product[] = [
     order: 1,
     date: '2017-06-29 12:09:33',
     status: 'Свободен',
-    owner: null
+    owner: null,
+    groupName: 'Длинное предлинное длиннющее название группы'
   },
   {
     id: 2,
@@ -43,13 +44,14 @@ const initialProducts: Product[] = [
     order: 1,
     date: '2017-06-29 12:09:33',
     status: 'В ремонте',
-    owner: null
+    owner: null,
+    groupName: null
   },
   {
     id: 3,
     serialNumber: 123456789,
     isNew: 1,
-    photo: '/monitor.jpg',
+    photo: '/laptop.jpg',
     title: 'Gigabyte Technology X58-USB3 (Socket 1366) 6 X58-USB3',
     type: 'Laptops',
     specification: 'Specification 2',
@@ -61,13 +63,14 @@ const initialProducts: Product[] = [
     order: 2,
     date: '2017-06-29 12:09:33',
     status: 'Свободен',
-    owner: 'Христорождественский Александр'
+    owner: 'Христорождественский Александр',
+    groupName: 'Длинное предлинное длиннющее название группы'
   },
   {
     id: 4,
     serialNumber: 123456789,
     isNew: 0,
-    photo: '/monitor.jpg',
+    photo: '/laptop.jpg',
     title: 'Gigabyte Technology X58-USB3 (Socket 1366) 6 X58-USB3',
     type: 'Laptops',
     specification: 'Specification 2',
@@ -79,7 +82,8 @@ const initialProducts: Product[] = [
     order: 3,
     date: '2017-06-29 12:09:33',
     status: 'В ремонте',
-    owner: null
+    owner: null,
+    groupName: null
   }
 ];
 
