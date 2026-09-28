@@ -27,7 +27,7 @@ export default function DeleteModal({ isOpen, onClose, onConfirm, title, itemDat
           <h2 className="text-lg font-bold text-gray-800">{title}</h2>
           <button 
             onClick={onClose}
-            className="p-1.5 bg-white rounded-full shadow-sm hover:bg-gray-50 border border-gray-200 transition"
+            className="p-1.5 bg-white rounded-full shadow-sm hover:bg-gray-50 border border-gray-200 transition cursor-pointer"
           >
             <X className="w-5 h-5 text-gray-500" />
           </button>
@@ -57,13 +57,13 @@ export default function DeleteModal({ isOpen, onClose, onConfirm, title, itemDat
         <div className="px-6 py-4 bg-lime-500 flex justify-end items-center gap-4">
           <button 
             onClick={onClose}
-            className="text-white font-semibold text-sm hover:text-lime-100 transition tracking-wider uppercase"
+            className="text-white font-semibold text-sm hover:text-lime-100 transition tracking-wider uppercase cursor-pointer"
           >
             Отменить
           </button>
           <button 
             onClick={onConfirm}
-            className="bg-white text-red-500 font-bold px-6 py-2 rounded-full shadow-md hover:bg-gray-50 flex items-center gap-2 text-sm transition uppercase"
+            className="bg-white text-red-500 font-bold px-6 py-2 rounded-full shadow-md hover:bg-gray-50 flex items-center gap-2 text-sm transition uppercase cursor-pointer"
           >
             <Trash2 className="w-4 h-4" />
             Удалить

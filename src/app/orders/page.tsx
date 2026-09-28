@@ -75,13 +75,13 @@ export default function OrdersPage() {
               >
                 {/* Title (hidden in split-view) */}
                 {!selectedOrderId && (
-                  <div className="flex-1 text-lg font-normal text-gray-500 underline decoration-gray-300 underline-offset-4 line-clamp-1 pr-4">
+                  <div className="flex-4 text-lg font-normal text-gray-500 underline decoration-gray-300 underline-offset-4 line-clamp-1 pr-4">
                     {order.title}
                   </div>
                 )}
 
                 {/* Block with a list icon and the number of products */}
-                <div className="flex items-center gap-3 w-32 border-l border-gray-200 pl-4 h-full">
+                <div className="flex flex-1 items-center gap-3 w-32 h-full">
                   <div className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center bg-white text-gray-500">
                     <List className="w-4 h-4" />
                   </div>
@@ -92,7 +92,7 @@ export default function OrdersPage() {
                 </div>
 
                 {/* Date block */}
-                <div className="flex flex-col items-center w-32 text-gray-400 border-l border-gray-200 pl-4">
+                <div className="flex flex-1 flex-col items-center text-gray-400">
                   <span className="text-[10px] uppercase font-medium">
                     {format(dateObj, 'MM / yy')}
                   </span>
@@ -103,7 +103,7 @@ export default function OrdersPage() {
 
                 {/* Pricing block (hidden in split-view) */}
                 {!selectedOrderId && (
-                  <div className="flex flex-col w-40 text-right pr-6 border-l border-gray-200 pl-4">
+                  <div className="flex flex-1 flex-col text-left pr-6 pl-20">
                     <span className="text-xs text-gray-400">
                       {stats.totalUSD} <span className="text-[10px]">USD</span>
                     </span>

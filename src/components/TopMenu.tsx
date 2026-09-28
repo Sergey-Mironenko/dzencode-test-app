@@ -37,7 +37,7 @@ export default function TopMenu() {
       </div>
 
       {/* Right side */}
-      <div className="flex items-center gap-6 text-sm text-gray-600 justify-between">
+      <div className="flex items-center gap-6 text-sm text-gray-600 justify-between w-[334px]">
         <ClientClock />
         <div className="flex items-center gap-1.5 bg-lime-50 text-lime-700 px-3 py-1 rounded-full border border-lime-200 font-semibold text-xs">
           <Users className="w-3.5 h-3.5" />

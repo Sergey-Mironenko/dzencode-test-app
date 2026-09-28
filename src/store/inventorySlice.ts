@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Order, Product } from '@/types'; // Убедись, что в types.ts добавлены groupName и owner
+import { Order, Product } from '@/types';
 
 const initialOrders: Order[] = [
   { id: 1, title: 'Длинное предлинное длиннющее название прихода', date: '2017-04-06 12:09:33', description: 'desc' },
@@ -51,7 +51,7 @@ const initialProducts: Product[] = [
     id: 3,
     serialNumber: 123456789,
     isNew: 1,
-    photo: '/monitor.jpg',
+    photo: '/laptop.jpg',
     title: 'Gigabyte Technology X58-USB3 (Socket 1366) 6 X58-USB3',
     type: 'Laptops',
     specification: 'Specification 2',
@@ -70,7 +70,7 @@ const initialProducts: Product[] = [
     id: 4,
     serialNumber: 123456789,
     isNew: 0,
-    photo: '/monitor.jpg',
+    photo: '/laptop.jpg',
     title: 'Gigabyte Technology X58-USB3 (Socket 1366) 6 X58-USB3',
     type: 'Laptops',
     specification: 'Specification 2',
