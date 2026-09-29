@@ -5,49 +5,66 @@ import { usePathname } from 'next/navigation';
 import { Settings } from 'lucide-react';
 import Image from 'next/image';
 
+const NAV_LINKS = [
+  { name: 'ПРИХОД', href: '/orders' },
+  { name: 'ГРУППЫ', href: '/groups' },
+  { name: 'ПРОДУКТЫ', href: '/products' },
+  { name: 'ПОЛЬЗОВАТЕЛИ', href: '/users' },
+  { name: 'НАСТРОЙКИ', href: '/settings' },
+];
+
 export default function Navigation() {
   const pathname = usePathname();
 
-  const navLinks = [
-    { name: 'ПРИХОД', href: '/orders' },
-    { name: 'ГРУППЫ', href: '/groups' },
-    { name: 'ПРОДУКТЫ', href: '/products' },
-    { name: 'ПОЛЬЗОВАТЕЛИ', href: '/users' },
-    { name: 'НАСТРОЙКИ', href: '/settings' },
-  ];
-
   return (
-    <aside className="w-64 bg-slate-50 border-r border-gray-200 flex flex-col items-center py-8 min-h-[calc(100vh-4rem)] shadow-[4px_0_24px_rgba(0,0,0,0.08)]">
+    <aside className="
+      w-full lg:w-64 
+      lg:min-h-[calc(100vh-4rem)] 
+      bg-slate-50 
+      border-b lg:border-b-0 lg:border-r border-gray-200 
+      flex flex-col items-center 
+      py-4 lg:py-8 
+      shadow-sm lg:shadow-[4px_0_24px_rgba(0,0,0,0.08)]
+      z-10
+    ">
       {/* User profile */}
-      <div className="relative mb-10 group cursor-pointer">
-        <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-gray-200 shadow-md relative">
+      <div className="relative mb-4 lg:mb-10 group">
+        <div className="relative w-16 h-16 lg:w-24 lg:h-24 overflow-hidden rounded-full border-2 border-gray-200 shadow-md transition-all">
           <Image
             src="/avatar.jpg"
-            sizes="96px"
-            alt="User Avatar"
+            sizes="(max-width: 1024px) 64px, 96px"
+            alt="User avatar"
             fill
             className="object-cover"
             priority
           />
         </div>
-        <button className="absolute bottom-0 right-0 bg-white border border-gray-200 p-1.5 rounded-full shadow hover:bg-gray-50 transition">
-          <Settings className="w-4 h-4 text-gray-600" />
+        <button 
+          aria-label="Profile settings"
+          className="absolute bottom-0 right-0 lg:p-1.5 p-1 bg-white rounded-full border border-gray-200 shadow transition-all hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-lime-600"
+        >
+          <Settings className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-gray-600" />
         </button>
       </div>
 
       {/* Navigation list */}
-      <nav className="w-full flex flex-col items-center gap-3">
-        {navLinks.map((link) => {
+      <nav aria-label="Main navigation" className="flex flex-col sm:flex-row flex-wrap lg:flex-col justify-center lg:justify-start gap-1 sm:gap-2 lg:gap-3 items-center w-full px-2 lg:px-0">
+        {NAV_LINKS.map((link) => {
           const isActive = pathname === link.href;
+          
           return (
             <Link
               key={link.href}
               href={link.href}
-              className={`text-[14px] font-bold tracking-wide transition-colors py-1 m-1 relative ${
-                isActive
-                  ? 'text-gray-700 border-b-3 border-lime-600'
-                  : 'text-gray-700 hover:text-lime-600'
-              }`}
+              className={`
+                relative w-auto text-gray-700 sm:w-auto text-center py-2 sm:py-1.5 lg:py-1 px-3 lg:px-2 m-0 
+                text-sm sm:text-xs lg:text-sm font-bold tracking-wide transition-colors
+                border-b-[3px] rounded-t-sm
+                ${isActive 
+                  ? 'border-lime-600 lg:bg-transparent' 
+                  : 'border-transparent hover:text-lime-600'
+                }
+              `}
             >
               {link.name}
             </Link>

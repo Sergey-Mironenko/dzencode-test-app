@@ -22,9 +22,11 @@ export default function RootLayout({
       <body className={`${inter.className} bg-slate-100 text-gray-800 min-h-screen flex flex-col`}>
         <Providers>
           <TopMenu />
-          <div className="flex flex-1">
+
+          <div className="flex flex-col lg:flex-row flex-1">
             <Navigation />
-            <main className="flex-1 p-8 overflow-x-auto">
+
+            <main className="flex-1 p-4 md:p-8 overflow-x-auto">
               {children}
             </main>
           </div>
