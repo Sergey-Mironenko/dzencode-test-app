@@ -1,11 +1,11 @@
 'use client';
 
 import { memo } from 'react';
-import Image from 'next/image';
 import { Trash2 } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { ru, enUS } from 'date-fns/locale';
 import { Product, Order } from '@/types/index';
+import { useLanguage } from './LanguageContext';
 
 interface ProductCardProps {
   product: Product;
@@ -14,134 +14,154 @@ interface ProductCardProps {
 }
 
 function ProductCardComponent({ product, order, onDeleteClick }: ProductCardProps) {
+  const { language, t } = useLanguage();
+  const dateLocale = language === 'ru' ? ru : enUS;
+
   const usdPrice = product.price.find((p) => p.symbol === 'USD')?.value || 0;
   const uahPrice = product.price.find((p) => p.symbol === 'UAH')?.value || 0;
 
+  const statusText =
+    product.status === 'Свободен' ? t('freeStatus') : t('repairStatus');
+
   return (
-    <div className="flex items-center gap-3 sm:gap-4 md:gap-5 lg:gap-6 bg-white border border-gray-200 rounded-md p-3 sm:p-3.5 md:p-4 lg:p-4 shadow-sm hover:shadow-md transition-shadow">
-      <div className="w-[12px] sm:w-[14px] md:w-[15px] lg:w-[16px] shrink-0 flex justify-center">
+    <div className="d-flex align-items-center bg-white border border-secondary-subtle rounded-2 p-3 p-sm-3.5 p-md-4 p-lg-4 shadow-sm transition-shadow" style={{ gap: '1rem' }}>
+      <div className="flex-shrink-0 d-flex justify-content-center" style={{ width: '16px' }}>
         <div
-          className={`w-2 h-2 rounded-full ${
-            product.status === 'Свободен' ? 'bg-yellow-300' : 'bg-gray-600'
+          className={`rounded-circle ${
+            product.status === 'Свободен' ? 'bg-warning' : 'bg-secondary'
           }`}
+          style={{ width: '8px', height: '8px' }}
         />
       </div>
 
-      <div className="relative w-[42px] h-10 sm:w-[44px] sm:h-11 md:w-[48px] md:h-12 lg:w-[50px] lg:h-12 shrink-0">
-        <Image
+      <div className="position-relative flex-shrink-0" style={{ width: '50px', height: '48px' }}>
+        <img
           src={product.photo}
-          sizes="50px"
-          alt="product"
-          fill
-          className="object-contain"
+          alt={t('productAlt')}
+          className="object-fit-contain w-100 h-100"
         />
       </div>
 
-      <div className="w-[300px] sm:w-[340px] md:w-[390px] lg:w-[430px] shrink-0 min-w-0">
+      <div className="flex-shrink-0 min-w-0" style={{ width: '430px' }}>
         <p
-          className="text-xs sm:text-xs md:text-sm lg:text-sm font-semibold text-gray-600 underline decoration-gray-300 underline-offset-4 line-clamp-1 mb-1"
+          className="text-secondary fw-bold text-decoration-underline text-truncate mb-1"
+          style={{ fontSize: '0.875rem', textUnderlineOffset: '4px', textDecorationColor: '#dee2e6' }}
           title={product.title}
         >
           {product.title}
         </p>
-        <p className="text-[10px] sm:text-[11px] md:text-xs lg:text-xs text-gray-400">
+        <p className="text-body-tertiary mb-0" style={{ fontSize: '11px' }}>
           SN-{product.serialNumber}
         </p>
       </div>
 
       <div
-        className={`hidden lg:block w-[100px] shrink-0 text-sm font-medium ${
-          product.status === 'Свободен' ? 'text-yellow-300' : 'text-gray-600'
+        className={`d-none d-lg-block flex-shrink-0 fw-medium ${
+          product.status === 'Свободен' ? 'text-warning' : 'text-secondary'
         }`}
+        style={{ width: '100px', fontSize: '0.875rem' }}
       >
-        {product.status}
+        {statusText}
       </div>
 
-      <div className="w-[125px] sm:w-[130px] md:w-[140px] lg:w-[150px] shrink-0 flex flex-col justify-start text-gray-500 gap-1">
-        <div className="flex items-center gap-1">
-          <span className="w-4 text-[10px] sm:text-[11px] md:text-xs lg:text-xs">
-            с
+      <div className="flex-shrink-0 d-flex flex-column justify-start text-secondary gap-1" style={{ width: '150px' }}>
+        <div className="d-flex align-items-center gap-1">
+          <span className="text-body-tertiary" style={{ width: '16px', fontSize: '11px' }}>
+            {t('from')}
           </span>
-          <span className="text-gray-500 text-xs sm:text-sm md:text-[15px] lg:text-[16px]">
+          <span className="text-secondary" style={{ fontSize: '1rem' }}>
             {format(parseISO(product.guarantee.start), 'dd / MM / yyyy')}
           </span>
         </div>
 
-        <div className="flex items-center gap-1">
-          <span className="w-4 text-[10px] sm:text-[11px] md:text-xs lg:text-xs">
-            по
+        <div className="d-flex align-items-center gap-1">
+          <span className="text-body-tertiary" style={{ width: '16px', fontSize: '11px' }}>
+            {t('to')}
           </span>
-          <span className="text-gray-500 text-xs sm:text-sm md:text-[15px] lg:text-base">
+          <span className="text-secondary" style={{ fontSize: '1rem' }}>
             {format(parseISO(product.guarantee.end), 'dd / MM / yyyy')}
           </span>
         </div>
       </div>
 
-      <div className="w-[75px] sm:w-[80px] md:w-[85px] lg:w-[90px] shrink-0 text-xs sm:text-xs md:text-sm lg:text-sm text-gray-500">
-        {product.isNew === 1 ? 'новый' : 'Б / У'}
+      <div className="flex-shrink-0 text-secondary" style={{ width: '90px', fontSize: '0.875rem' }}>
+        {product.isNew === 1 ? t('newItem') : t('usedItem')}
       </div>
 
-      <div className="w-[85px] sm:w-[90px] md:w-[95px] lg:w-[100px] shrink-0 flex flex-col">
-        <span className="text-[10px] sm:text-[11px] md:text-xs lg:text-xs text-gray-400">
-          {usdPrice} <span className="text-[9px] sm:text-[10px]">USD</span>
+      <div className="flex-shrink-0 d-flex flex-column" style={{ width: '100px' }}>
+        <span className="text-body-tertiary" style={{ fontSize: '11px' }}>
+          {usdPrice} <span style={{ fontSize: '10px' }}>USD</span>
         </span>
 
-        <span className="text-xs sm:text-sm md:text-sm lg:text-base font-normal text-gray-500">
+        <span className="text-secondary fw-normal" style={{ fontSize: '1rem' }}>
           {uahPrice}{' '}
-          <span className="text-[9px] sm:text-[10px] font-medium">UAH</span>
+          <span className="fw-medium" style={{ fontSize: '10px' }}>
+            UAH
+          </span>
         </span>
       </div>
 
-      <div className="w-[200px] sm:w-[220px] md:w-[255px] lg:w-[290px] shrink-0 min-w-0">
+      <div className="flex-shrink-0 min-w-0" style={{ width: '290px' }}>
         <p
-          className={`text-sm sm:text-sm md:text-base lg:text-m ${
+          className={`mb-0 ${
             product.groupName
-              ? 'text-gray-500 underline decoration-gray-300 underline-offset-4 line-clamp-2'
-              : 'text-gray-400'
+              ? 'text-secondary text-decoration-underline line-clamp-2'
+              : 'text-body-tertiary'
           }`}
+          style={product.groupName ? { fontSize: '1rem', textUnderlineOffset: '4px', textDecorationColor: '#dee2e6' } : { fontSize: '1rem' }}
         >
           {product.groupName || '—'}
         </p>
       </div>
 
-      <div className="w-[150px] sm:w-[165px] md:w-[200px] lg:w-[210px] shrink-0 min-w-0">
+      <div className="flex-shrink-0 min-w-0" style={{ width: '210px' }}>
         <p
-          className={`text-sm sm:text-sm md:text-base lg:text-m ${
+          className={`mb-0 ${
             product.owner
-              ? 'text-gray-500 underline decoration-gray-300 underline-offset-4 line-clamp-2'
-              : 'text-gray-400'
+              ? 'text-secondary text-decoration-underline line-clamp-2'
+              : 'text-body-tertiary'
           }`}
+          style={product.owner ? { fontSize: '1rem', textUnderlineOffset: '4px', textDecorationColor: '#dee2e6' } : { fontSize: '1rem' }}
         >
           {product.owner || '—'}
         </p>
       </div>
 
-      <div className="w-[200px] sm:w-[220px] md:w-[250px] lg:w-[280px] shrink-0 min-w-0">
-        <p className="text-sm sm:text-sm md:text-base lg:text-m text-gray-500 underline decoration-gray-300 underline-offset-4 line-clamp-2">
+      <div className="flex-shrink-0 min-w-0" style={{ width: '280px' }}>
+        <p
+          className={`mb-0 ${
+            order?.title
+              ? 'text-secondary text-decoration-underline line-clamp-2'
+              : 'text-body-tertiary'
+          }`}
+          style={order?.title ? { fontSize: '1rem', textUnderlineOffset: '4px', textDecorationColor: '#dee2e6' } : { fontSize: '1rem' }}
+        >
           {order?.title || '—'}
         </p>
       </div>
 
-      <div className="w-[105px] sm:w-[110px] md:w-[115px] lg:w-[120px] shrink-0 flex flex-col items-center text-gray-400">
-        <span className="text-[9px] sm:text-[10px] md:text-[10px] lg:text-[10px] uppercase font-medium">
+      <div className="flex-shrink-0 d-flex flex-column align-items-center text-body-tertiary" style={{ width: '120px' }}>
+        <span className="text-uppercase fw-medium" style={{ fontSize: '10px' }}>
           {order ? format(parseISO(order.date), 'MM / yy') : ''}
         </span>
 
-        <span className="text-xs sm:text-xs md:text-sm lg:text-md text-gray-500 font-medium whitespace-nowrap">
+        <span className="text-secondary fw-medium text-nowrap" style={{ fontSize: '1rem' }}>
           {order
             ? format(parseISO(order.date), 'dd / MMM. / yyyy', {
-                locale: ru,
+                locale: dateLocale,
               }).toLowerCase()
             : ''}
         </span>
       </div>
 
-      <div className="w-[32px] sm:w-[34px] md:w-[36px] lg:w-[40px] shrink-0 flex justify-end">
+      <div className="flex-shrink-0 d-flex justify-content-end" style={{ width: '40px' }}>
         <button
+          type="button"
           onClick={() => onDeleteClick(product.id)}
-          className="text-gray-400 hover:text-red-500 transition p-1.5 sm:p-2 cursor-pointer"
+          className="btn btn-link text-body-tertiary p-2 text-decoration-none hover-danger"
+          style={{ transition: 'color 0.15s ease-in-out' }}
         >
-          <Trash2 className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 lg:w-5 lg:h-5" />
+          <Trash2 style={{ width: '1.25rem', height: '1.25rem' }} />
         </button>
       </div>
     </div>

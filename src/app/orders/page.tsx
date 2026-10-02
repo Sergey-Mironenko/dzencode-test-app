@@ -3,37 +3,78 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Plus } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { RootState } from '@/store/store';
-import { deleteOrder, setSelectedOrderId } from '@/store/inventorySlice';
-import DeleteModal from '@/components/DeleteModal';
+import {
+  deleteOrder,
+  setSelectedOrderId,
+} from '@/store/inventorySlice';
 import { OrderCard } from '@/components/OrderCard';
-import OrderDetailsPanel from '@/components/OrderDetailsPanel';
+
+const DeleteModal = dynamic(
+  () => import('@/components/DeleteModal'),
+  {
+    ssr: false,
+  }
+);
+
+const OrderDetailsPanel = dynamic(
+  () => import('@/components/OrderDetailsPanel'),
+  {
+    ssr: false,
+  }
+);
 
 export default function OrdersPage() {
   const dispatch = useDispatch();
-  const { orders, products, selectedOrderId } = useSelector(
+
+  const {
+    orders,
+    products,
+    selectedOrderId,
+  } = useSelector(
     (state: RootState) => state.inventory
   );
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [orderToDelete, setOrderToDelete] = useState<number | null>(null);
+  const [orderToDelete, setOrderToDelete] =
+    useState<number | null>(null);
 
   const getOrderStats = (orderId: number) => {
-    const orderProducts = products.filter((p) => p.order === orderId);
+    const orderProducts = products.filter(
+      (p) => p.order === orderId
+    );
+
     const totalUSD = orderProducts.reduce(
       (sum, p) =>
-        sum + (p.price.find((pr) => pr.symbol === 'USD')?.value || 0),
+        sum +
+        (p.price.find(
+          (pr) => pr.symbol === 'USD'
+        )?.value || 0),
       0
     );
+
     const totalUAH = orderProducts.reduce(
       (sum, p) =>
-        sum + (p.price.find((pr) => pr.symbol === 'UAH')?.value || 0),
+        sum +
+        (p.price.find(
+          (pr) => pr.symbol === 'UAH'
+        )?.value || 0),
       0
     );
-    return { count: orderProducts.length, totalUSD, totalUAH, orderProducts };
+
+    return {
+      count: orderProducts.length,
+      totalUSD,
+      totalUAH,
+      orderProducts,
+    };
   };
 
-  const handleDeleteClick = (e: React.MouseEvent, id: number) => {
+  const handleDeleteClick = (
+    e: React.MouseEvent,
+    id: number
+  ) => {
     e.stopPropagation();
     setOrderToDelete(id);
     setModalOpen(true);
@@ -43,66 +84,104 @@ export default function OrdersPage() {
     if (orderToDelete !== null) {
       dispatch(deleteOrder(orderToDelete));
     }
+
     setModalOpen(false);
     setOrderToDelete(null);
   };
 
   const selectedOrderData = selectedOrderId
-    ? orders.find((o) => o.id === selectedOrderId)
+    ? orders.find(
+        (o) => o.id === selectedOrderId
+      )
     : null;
+
   const selectedOrderStats = selectedOrderId
     ? getOrderStats(selectedOrderId)
     : null;
+
   const orderToDeleteData = orderToDelete
-    ? orders.find((o) => o.id === orderToDelete)
+    ? orders.find(
+        (o) => o.id === orderToDelete
+      )
     : null;
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <div className="flex items-center gap-3 lg:gap-4 mb-6 lg:mb-8">
-        <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-lime-500 border-[3px] border-lime-200 flex items-center justify-center text-white shadow-sm cursor-pointer hover:bg-lime-600 transition">
-          <Plus className="w-5 h-5 lg:w-6 lg:h-6" />
-        </div>
-        <h1 className="text-xl lg:text-2xl font-bold text-gray-800">
+    <div className="orders-page w-100 mx-auto px-3 px-sm-4 px-lg-5 py-3 py-sm-4 py-lg-5">
+      {/* Top Header */}
+      <div className="d-flex align-items-center gap-3 gap-md-4 mb-4 mb-sm-4 mb-lg-5">
+        <button
+          type="button"
+          className="orders-add-button border-0 d-flex align-items-center justify-content-center text-white shadow-sm flex-shrink-0"
+          style={{
+            width: '40px',
+            height: '40px',
+            borderRadius: '50%',
+            backgroundColor: '#65a30d',
+          }}
+          aria-label="Add Order"
+        >
+          <Plus size={20} />
+        </button>
+
+        <h1 className="fw-bold text-dark m-0">
           Приходы / {orders.length}
         </h1>
       </div>
 
-      <div className="flex gap-4 relative items-start">
-        {/* Список приходов */}
+      {/* Main Content */}
+      <div className="d-flex flex-column flex-lg-row gap-3 gap-lg-4 position-relative align-items-start">
+        {/* Orders list */}
         <div
-          className={`transition-all duration-300 ease-in-out flex-col gap-3 lg:min-w-[284px] ${
-            selectedOrderId ? 'hidden lg:flex lg:w-1/3' : 'flex w-full'
+          className={`orders-list d-flex flex-column gap-3 ${
+            selectedOrderId
+              ? 'd-none d-lg-flex'
+              : 'w-100'
           }`}
         >
           {orders.map((order) => {
             const stats = getOrderStats(order.id);
-            const isSelected = selectedOrderId === order.id;
+            const isSelected =
+              selectedOrderId === order.id;
 
             return (
               <OrderCard
                 key={order.id}
                 order={order}
                 isSelected={isSelected}
-                hasSelectedOrder={Boolean(selectedOrderId)}
+                hasSelectedOrder={Boolean(
+                  selectedOrderId
+                )}
                 stats={stats}
-                onSelect={(id) => dispatch(setSelectedOrderId(id))}
+                onSelect={(id) =>
+                  dispatch(setSelectedOrderId(id))
+                }
                 onDeleteClick={handleDeleteClick}
               />
             );
           })}
         </div>
 
-        {/* Детали прихода (Split-View) */}
-        {selectedOrderId && selectedOrderData && selectedOrderStats && (
-          <OrderDetailsPanel
-            order={selectedOrderData}
-            products={selectedOrderStats.orderProducts}
-            onClose={() => dispatch(setSelectedOrderId(null))}
-          />
-        )}
+        {/* Selected Order */}
+        {selectedOrderId &&
+          selectedOrderData &&
+          selectedOrderStats && (
+            <div className="order-details-wrapper w-100 flex-grow-1">
+              <OrderDetailsPanel
+                order={selectedOrderData}
+                products={
+                  selectedOrderStats.orderProducts
+                }
+                onClose={() =>
+                  dispatch(
+                    setSelectedOrderId(null)
+                  )
+                }
+              />
+            </div>
+          )}
       </div>
 
+      {/* Delete Modal */}
       <DeleteModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}

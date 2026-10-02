@@ -1,5 +1,3 @@
-@import "tailwindcss";
-
 :root {
   --background: #f0f3f5;
   --foreground: #171717;
@@ -33,4 +31,243 @@ body {
 * {
   scrollbar-width: thin;
   scrollbar-color: #cbd5e1 #f3f4f6;
+}
+
+.navigation-sidebar {
+  width: 100%;
+}
+
+.navigation-link {
+  font-size: 0.875rem;
+  letter-spacing: 0.025em;
+  border-bottom: 3px solid transparent;
+  border-radius: 0.125rem 0.125rem 0 0;
+  transition: color 0.15s ease-in-out;
+}
+
+.navigation-link:hover {
+  color: #65a30d !important;
+}
+
+.navigation-link-active {
+  border-bottom-color: #65a30d;
+  color: #111827 !important;
+}
+
+.navigation-sidebar .object-fit-cover {
+  object-fit: cover;
+}
+
+@media (min-width: 576px) {
+  .navigation-link {
+    font-size: 0.75rem;
+    padding-top: 0.375rem !important;
+    padding-bottom: 0.375rem !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .navigation-sidebar {
+    width: 16rem !important;
+    min-height: calc(100vh - 4rem);
+    border-bottom: 0 !important;
+    border-right: 1px solid var(--bs-border-color);
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .navigation-link {
+    font-size: 0.875rem;
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+  }
+}
+
+.navigation-sidebar {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+@media (min-width: 992px) {
+  .navigation-sidebar {
+    width: 240px;
+    min-width: 240px;
+    max-width: 240px;
+  }
+}
+
+.order-card {
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.order-card-default {
+  background-color: #ffffff;
+  border-color: #e5e7eb !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.order-card-default:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.order-card-selected {
+  background-color: #f3f4f6;
+  border-color: #d1d5db !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* Title */
+
+.order-card-title {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #6b7280;
+
+  text-decoration-line: underline;
+  text-decoration-color: #d1d5db;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Products */
+
+.order-card-products {
+  width: auto;
+}
+
+.order-card-list-icon {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #d1d5db;
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: #6b7280;
+}
+
+.order-card-count {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1;
+  color: #6b7280;
+}
+
+.order-card-products-label {
+  font-size: 12px;
+  font-weight: 400;
+  color: #9ca3af;
+}
+
+/* Date */
+
+.order-card-month {
+  font-size: 10px;
+  font-weight: 500;
+  color: #9ca3af;
+  line-height: 1.4;
+}
+
+.order-card-full-date {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* Prices */
+
+.order-card-usd {
+  font-size: 12px;
+  font-weight: 400;
+  color: #9ca3af;
+}
+
+.order-card-uah {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.order-card-currency {
+  font-size: 10px;
+}
+
+/* Selected indicator */
+
+.order-card-selected-indicator {
+  width: 32px;
+  background-color: #e5e7eb;
+  color: #6b7280;
+}
+
+/* Delete buttons */
+
+.order-card-delete-mobile,
+.order-card-delete {
+  color: #9ca3af !important;
+  transition: color 0.2s ease;
+}
+
+.order-card-delete-mobile:hover,
+.order-card-delete:hover {
+  color: #ef4444 !important;
+}
+
+/* Desktop delete */
+
+.order-card-delete-desktop {
+  width: 32px;
+}
+
+/* Selected card layout */
+
+.order-card-selected-content {
+  padding-right: 24px;
+}
+
+.order-card-date-selected {
+  min-width: 120px;
+}
+
+/* Desktop fixed widths */
+
+@media (min-width: 992px) {
+  .order-card-products {
+    width: 110px;
+  }
+
+  .order-card-date {
+    width: 190px;
+  }
+
+  .order-card-price {
+    width: 150px;
+  }
+
+  .order-card-full-date {
+    font-size: 14px;
+  }
+
+  /* Delete icon is hidden until card hover */
+  .order-card-default .order-card-delete {
+    opacity: 0;
+  }
+
+  .order-card-default:hover .order-card-delete {
+    opacity: 1;
+  }
+}
+
+/* Mobile delete is always visible, like Tailwind version */
+@media (max-width: 991.98px) {
+  .order-card-delete-mobile {
+    opacity: 1;
+  }
 }

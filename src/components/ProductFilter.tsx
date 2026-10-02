@@ -1,6 +1,6 @@
 'use client';
-
-import { ChevronDown } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { useLanguage } from './LanguageContext';
 
 interface ProductFilterProps {
   totalCount: number;
@@ -15,32 +15,75 @@ export default function ProductFilter({
   uniqueTypes,
   onFilterChange,
 }: ProductFilterProps) {
+  const { t } = useLanguage();
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const selectedLabel = filterType === 'all' ? t('allTypes') : filterType;
+
   return (
-    <div className="flex items-center gap-4 sm:gap-6 md:gap-7 lg:gap-8 mb-6 sm:mb-7 md:mb-8 mt-3 sm:mt-4 pl-2 sm:pl-3 md:pl-4">
-      <h1 className="text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold text-gray-800">
-        Продукты / {totalCount}
+    <div className="d-flex align-items-center gap-3 gap-sm-4 mb-4 pb-4 mt-3 ps-2 ps-sm-3">
+      <h1 className="text-dark fw-bold fs-sm-4 fs-md-7 mb-0">
+        {t('products')} / {totalCount}
       </h1>
+      <div className="d-flex align-items-center gap-2">
+        <span className="text-secondary fw-medium" style={{ fontSize: '0.8125rem' }}>
+          {t('type')}:
+        </span>
 
-      <div className="flex items-center gap-2 sm:gap-2.5 md:gap-3">
-        <label className="text-xs sm:text-sm md:text-sm lg:text-sm text-gray-500 font-medium">
-          Тип:
-        </label>
-
-        <div className="relative min-w-[150px] sm:min-w-[170px] md:min-w-[185px] lg:min-w-[200px]">
-          <select
-            value={filterType}
-            onChange={(e) => onFilterChange(e.target.value)}
-            className="w-full appearance-none border border-gray-300 rounded-md py-1.5 pl-2 sm:pl-3 pr-7 sm:pr-8 text-xs sm:text-sm md:text-sm lg:text-sm text-gray-700 bg-white shadow-sm focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer"
+        <div className="position-relative" style={{ minWidth: '150px' }} ref={dropdownRef}>
+          <button
+            type="button"
+            onClick={() => setIsOpen(!isOpen)}
+            className="w-100 form-select form-select-sm text-secondary bg-white shadow-sm d-flex align-items-center justify-content-between text-start"
+            style={{ fontSize: '0.875rem', borderColor: '#dee2e6' }}
           >
-            <option value="all">Все типы</option>
-            {uniqueTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
+            <span className="text-truncate">{selectedLabel}</span>
+          </button>
 
-          <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400 absolute right-2 sm:right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          {isOpen && (
+            <ul 
+              className="position-absolute start-0 w-100 bg-white border rounded shadow-sm py-1 mt-1 list-unstyled m-0"
+              style={{ zIndex: 1050, fontSize: '0.875rem', maxHeight: '200px', overflowY: 'auto' }}
+            >
+              <li>
+                <button
+                  type="button"
+                  className={`w-100 text-start px-3 py-1.5 border-0 bg-transparent ${filterType === 'all' ? 'fw-bold text-primary' : 'text-secondary'}`}
+                  onClick={() => {
+                    onFilterChange('all');
+                    setIsOpen(false);
+                  }}
+                >
+                  {t('allTypes')}
+                </button>
+              </li>
+              {uniqueTypes.map((type) => (
+                <li key={type}>
+                  <button
+                    type="button"
+                    className={`w-100 text-start px-3 py-1.5 border-0 bg-transparent ${filterType === type ? 'fw-bold text-primary' : 'text-secondary'}`}
+                    onClick={() => {
+                      onFilterChange(type);
+                      setIsOpen(false);
+                    }}
+                  >
+                    {type}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </div>

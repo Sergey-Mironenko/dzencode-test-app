@@ -1,51 +1,99 @@
 'use client';
 
 import { memo } from 'react';
-import Image from 'next/image';
 import { Trash2 } from 'lucide-react';
 import { Product } from '@/types/index';
+import { useLanguage } from './LanguageContext';
 
 interface OrderProductRowProps {
   product: Product;
 }
 
 function OrderProductRowComponent({ product }: OrderProductRowProps) {
+  const { t } = useLanguage();
+
+  const isFree = product.status === 'Свободен';
+
+  const statusText = isFree
+    ? t('freeStatus')
+    : t('repairStatus');
+
   return (
-    <div className="flex items-center gap-2 sm:gap-4 p-2 hover:bg-gray-50 border-b border-gray-50 transition rounded-md group">
+    <div className="order-product-row d-flex align-items-center gap-2 gap-sm-3 p-2 w-100">
+      {/* Status indicator */}
       <div
-        className={`w-2 h-2 rounded-full flex-shrink-0 ${
-          product.status === 'Свободен' ? 'bg-yellow-300' : 'bg-gray-600'
+        className={`rounded-circle flex-shrink-0 ${
+          isFree ? 'bg-warning-subtle' : 'bg-secondary'
         }`}
+        style={{
+          width: '0.5rem',
+          height: '0.5rem',
+          backgroundColor: isFree ? '#fde047' : undefined,
+        }}
       />
 
-      <div className="relative w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 bg-white border border-gray-200 rounded p-1">
-        <Image
+      {/* Product image */}
+      <div
+        className="position-relative flex-shrink-0 bg-white border border-secondary-subtle rounded-1 p-1"
+        style={{
+          width: '2.5rem',
+          height: '2.5rem',
+        }}
+      >
+        <img
           src={product.photo}
           alt={product.title}
-          fill
-          className="object-contain"
+          className="w-100 h-100 object-fit-cover"
         />
       </div>
 
-      <div className="flex-1 min-w-0">
-        <p className="text-xs sm:text-sm text-gray-600 font-medium line-clamp-1 underline decoration-gray-300 decoration-2 underline-offset-2">
+      {/* Product information */}
+      <div className="flex-grow-1 min-w-0" style={{ minWidth: 0 }}>
+        <p
+          className="product-title text-secondary fw-medium mb-0"
+          title={product.title}
+          style={{
+            wordBreak: 'break-word',
+            overflowWrap: 'break-word',
+            textDecorationLine: 'underline',
+            textDecorationColor: 'rgba(108, 117, 125, 0.4)', // Тусклый цвет линии
+            textDecorationThickness: '1px',
+            textUnderlineOffset: '3px', // Чуть отодвигаем линию вниз для красоты
+          }}
+        >
           {product.title}
         </p>
-        <p className="text-[10px] sm:text-xs text-gray-400 mt-0.5">
+
+        <p className="product-serial text-body-tertiary mb-0 mt-1" style={{ fontSize: '0.75rem' }}>
           SN-{product.serialNumber}
         </p>
       </div>
 
+      {/* Status */}
       <div
-        className={`hidden sm:block w-20 sm:w-24 text-[10px] sm:text-xs font-semibold ${
-          product.status === 'Свободен' ? 'text-yellow-300' : 'text-gray-600'
+        className={`d-none d-sm-block flex-shrink-0 fw-semibold text-truncate ${
+          isFree ? 'text-warning' : 'text-secondary'
         }`}
+        style={{
+          width: '5rem',
+          fontSize: '0.625rem',
+        }}
       >
-        {product.status}
+        {statusText}
       </div>
 
-      <button className="text-gray-400 hover:text-red-500 opacity-100 lg:opacity-0 group-hover:opacity-100 transition p-2">
-        <Trash2 className="w-4 h-4" />
+      {/* Delete */}
+      <button
+        type="button"
+        className="order-product-delete btn btn-link text-secondary p-2 flex-shrink-0"
+        aria-label="Delete product"
+      >
+        <Trash2
+          style={{
+            width: '1rem',
+            height: '1rem',
+          }}
+        />
       </button>
     </div>
   );

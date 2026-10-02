@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
 import { setActiveSessions } from '@/store/inventorySlice';
 
-const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:4000';
+const SOCKET_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:4000';
 
 export const useSocket = () => {
   const dispatch = useDispatch();

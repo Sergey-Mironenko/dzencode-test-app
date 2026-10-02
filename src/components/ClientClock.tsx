@@ -14,19 +14,21 @@ export default function ClientClock() {
     return () => clearInterval(timer);
   }, []);
 
-  if (!time) return <div className="w-32 h-8" />;
+  if (!time) return <div style={{ width: '8rem', height: '2rem' }} />;
 
   return (
-    <div className="flex flex-col items-start">
-      <span className="capitalize font-medium text-xs text-gray-500">
+    <div className="d-flex flex-column align-items-start">
+      <span className="text-capitalize fw-medium text-muted" style={{ fontSize: '0.75rem' }}>
         {format(time, 'EEEE', { locale: ru })}
       </span>
-      <div className="flex items-center gap-5 font-medium">
-        <span className='w-[100px]'>{format(time, 'dd MMM, yyyy', { locale: ru })}</span>
-        <span className="flex items-center gap-2 font-medium w-[90px]">
-          <Clock className="w-3.5 h-3.5 text-lime-600 font-bold" />
-          {format(time, 'HH:mm:ss')}
-        </span>
+      <div className="d-flex align-items-center gap-4 fw-medium">
+        <span style={{ width: '110px' }}>{format(time, 'dd MMM, yyyy', { locale: ru })}</span>
+        <div className="d-flex align-items-center gap-2 fw-medium" style={{ width: '90px' }}>
+          <Clock className="text-success fw-bold" style={{ width: '1 rem', height: '0.875rem' }} />
+          <span style={{ minWidth: '65px' }}>
+            {format(time, 'HH:mm:ss')}
+          </span>
+        </div>
       </div>
     </div>
   );
