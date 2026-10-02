@@ -51,7 +51,7 @@ function ProductCardComponent({ product, order, onDeleteClick }: ProductCardProp
           {product.title}
         </p>
         <p className="text-body-tertiary mb-0" style={{ fontSize: '11px' }}>
-          SN-{product.serialNumber}
+          {`SN-${product.serialNumber}`}
         </p>
       </div>
 

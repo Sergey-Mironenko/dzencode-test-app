@@ -20,7 +20,6 @@ export const loginThunk = createAsyncThunk(
   async (credentials: { email: string; password: string }, { rejectWithValue }) => {
     const BASE_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:4000';
 
-    // Формируем GraphQL мутацию для входа
     const mutation = `
       mutation Login($email: String!, $password: String!) {
         login(email: $email, password: $password) {
@@ -65,7 +64,6 @@ export const registerThunk = createAsyncThunk(
   async (credentials: { email: string; password: string }, { rejectWithValue }) => {
     const BASE_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:4000';
 
-    // Формируем GraphQL мутацию для регистрации
     const mutation = `
       mutation Register($email: String!, $password: String!) {
         register(email: $email, password: $password) {
@@ -122,7 +120,6 @@ export const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Вход
       .addCase(loginThunk.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -136,7 +133,6 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload as string;
       })
-      // Регистрация
       .addCase(registerThunk.pending, (state) => {
         state.isLoading = true;
         state.error = null;

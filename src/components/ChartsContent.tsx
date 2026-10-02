@@ -4,10 +4,12 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '@/store/store';
 import { fetchInventoryData } from '@/store/inventorySlice';
+import { useLanguage } from './LanguageContext';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, BarChart, Bar } from 'recharts';
 
 export default function ChartsContent() {
   const dispatch = useDispatch<AppDispatch>();
+  const { t } = useLanguage();
   const { orders, products, isLoaded, isLoading } = useSelector((state: RootState) => state.inventory);
 
   useEffect(() => {
@@ -41,18 +43,17 @@ export default function ChartsContent() {
   }));
 
   if (isLoading && !isLoaded) {
-    return <div className="p-4 text-secondary">Загрузка данных для аналитики...</div>;
+    return <div className="p-4 text-secondary">{t('analyticsLoading')}</div>;
   }
 
   return (
     <div className="container-fluid p-0">
-      <h2 className="h4 fw-bold mb-4 text-dark">Аналитика по приходам и продуктам</h2>
+      <h2 className="h4 fw-bold mb-4 text-dark">{t('analytics')}</h2>
 
       <div className="row g-4">
-        {/* График приходов по месяцам */}
         <div className="col-12 col-xl-6">
           <div className="bg-white p-4 rounded-4 shadow-sm w-100" style={{ height: '350px' }}>
-            <h3 className="h6 fw-bold mb-3 text-secondary">Динамика приходов (по месяцам)</h3>
+            <h3 className="h6 fw-bold mb-3 text-secondary">{t('dynamics')}</h3>
             <ResponsiveContainer width="100%" height="85%">
               <LineChart data={ordersChartData}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
@@ -67,7 +68,7 @@ export default function ChartsContent() {
 
         <div className="col-12 col-xl-6">
           <div className="bg-white p-4 rounded-4 shadow-sm w-100" style={{ height: '350px' }}>
-            <h3 className="h6 fw-bold mb-3 text-secondary">Количество техники по типам</h3>
+            <h3 className="h6 fw-bold mb-3 text-secondary">{t('amount')}</h3>
             <ResponsiveContainer width="100%" height="85%">
               <BarChart data={productsChartData}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />

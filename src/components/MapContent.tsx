@@ -1,6 +1,7 @@
 'use client';
 
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { useLanguage } from './LanguageContext';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
@@ -12,11 +13,12 @@ const customIcon = L.icon({
 });
 
 export default function MapContent() {
-  const position: [number, number] = [49.9884, 36.2328]; // Координаты (например, Харьков)
+  const { t } = useLanguage(); // <--- Перенесли сюда (внутрь компонента)
+  const position: [number, number] = [49.9884, 36.2328];
 
   return (
     <div className="container-fluid p-0">
-      <h2 className="h4 fw-bold mb-4 text-dark">Геолокация объектов</h2>
+      <h2 className="h4 fw-bold mb-4 text-dark">{t('objectGeolocation')}</h2>
       <div className="bg-white p-3 rounded-4 shadow-sm w-100" style={{ height: '500px' }}>
         <div style={{ height: '100%', width: '100%', borderRadius: '8px', overflow: 'hidden' }}>
           <MapContainer center={position} zoom={13} style={{ height: '100%', width: '100%' }}>
@@ -25,7 +27,7 @@ export default function MapContent() {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <Marker position={position} icon={customIcon}>
-              <Popup>Главный офис / Склад</Popup>
+              <Popup>{t('place')}</Popup>
             </Marker>
           </MapContainer>
         </div>
