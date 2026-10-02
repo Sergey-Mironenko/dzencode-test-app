@@ -3,8 +3,9 @@
 import { memo } from 'react';
 import { List, Trash2, ChevronRight } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { ru, enUS } from 'date-fns/locale';
 import { Order, Product } from '@/types/index';
+import { useLanguage } from './LanguageContext';
 
 interface OrderStats {
   count: number;
@@ -30,101 +31,122 @@ function OrderCardComponent({
   onSelect,
   onDeleteClick,
 }: OrderCardProps) {
+  const { language, t } = useLanguage();
+
+  const dateLocale = language === 'ru' ? ru : enUS;
   const dateObj = parseISO(order.date);
 
   return (
     <div
       onClick={() => onSelect(order.id)}
-      className={`relative overflow-hidden mx-2 sm:mx-0 flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-4 border rounded-md p-4 cursor-pointer transition-all ${
+      className={`order-card position-relative overflow-hidden mx-2 mx-sm-0 d-flex flex-column flex-lg-row align-items-lg-center border rounded-2 p-3 p-lg-4 ${
         isSelected
-          ? 'bg-gray-100 border-gray-300 shadow-inner'
-          : 'bg-white border-gray-200 shadow-sm hover:shadow-md'
+          ? 'order-card-selected bg-light border-secondary-subtle'
+          : 'order-card-default bg-white border-secondary-subtle'
       }`}
+      style={{ gap: '1rem' }}
     >
       {!hasSelectedOrder && (
-        <div className="flex justify-between items-start lg:items-center w-full lg:w-auto lg:flex-1 lg:min-w-0">
-          <div className="flex-1 min-w-0 text-lg font-normal text-gray-500 underline decoration-gray-300 underline-offset-4 line-clamp-1 mt-1">
+        <div 
+          className="d-flex align-items-center w-100 w-lg-auto flex-lg-grow-1 pe-lg-3 min-w-0"
+        >
+          <div 
+            className="order-card-title flex-grow-1 text-secondary fw-normal text-truncate mt-1 text-decoration-underline" 
+            style={{ textUnderlineOffset: '4px', minWidth: '0' }}
+          >
             {order.title}
           </div>
+
           <button
+            type="button"
             onClick={(e) => onDeleteClick(e, order.id)}
-            className="lg:hidden text-gray-400 hover:text-red-500 transition p-2 -mr-2 -mt-2 shrink-0"
+            className="d-lg-none btn btn-link text-secondary p-2 me-n2 mt-n2 flex-shrink-0 text-decoration-none"
+            aria-label="Delete order"
           >
-            <Trash2 className="w-5 h-5" />
+            <Trash2 style={{ width: '1.25rem', height: '1.25rem' }} />
           </button>
         </div>
       )}
 
       <div
-        className={`flex flex-col sm:flex-row sm:items-center sm:justify-between lg:justify-start gap-4 lg:gap-0 sm:pr-8 lg:pr-0 ${
-          hasSelectedOrder ? 'flex-1 min-w-0 lg:pr-6' : 'w-full lg:w-auto'
+        className={`d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between justify-content-lg-start flex-shrink-0 ${
+          hasSelectedOrder ? 'flex-grow-1 min-w-0 pe-lg-4' : ''
         }`}
+        style={{ gap: '1.5rem' }}
       >
-        {/* Количество продуктов */}
         <div
-          className={`flex items-center gap-3 shrink-0 ${
-            hasSelectedOrder ? 'flex-1 min-w-0' : 'w-auto lg:w-[110px]'
+          className={`d-flex align-items-center gap-3 flex-shrink-0 pe-4 ${
+            hasSelectedOrder ? 'flex-grow-1 min-w-0' : 'w-auto'
           }`}
+          style={{ width: hasSelectedOrder ? 'auto' : '' }}
         >
-          <div className="w-8 h-8 shrink-0 rounded-full border border-gray-300 flex items-center justify-center bg-white text-gray-500">
-            <List className="w-4 h-4" />
+          <div
+            className="rounded-circle border border-secondary-subtle d-flex align-items-center justify-content-center bg-white text-secondary flex-shrink-0"
+            style={{ width: '2rem', height: '2rem' }}
+          >
+            <List style={{ width: '1rem', height: '1rem' }} />
           </div>
 
-          <div className="flex flex-col min-w-0">
-            <span className="text-lg font-normal text-gray-500 leading-none">
+          <div className="d-flex flex-column min-w-0">
+            <span className="text-secondary fw-normal lh-1" style={{ fontSize: '1.125rem' }}>
               {stats.count}
             </span>
-            <span className="text-[12px] text-gray-400 font-normal whitespace-nowrap">
-              Продукта
+            <span className="text-body-tertiary fw-normal text-nowrap" style={{ fontSize: '12px' }}>
+              {t('productsCount')}
             </span>
           </div>
         </div>
 
-        {/* Дата */}
         <div
-          className={`flex flex-col items-start sm:items-center text-gray-400 shrink-0 ${
-            hasSelectedOrder
-              ? 'min-w-[120px] items-center'
-              : 'w-auto lg:w-[190px]'
+          className={`d-flex flex-column text-secondary flex-shrink-0 ${
+            hasSelectedOrder ? 'align-items-center' : 'align-items-start'
           }`}
+          style={{ width: hasSelectedOrder ? 'auto' : '140px' }}
         >
-          <span className="text-[10px] uppercase font-medium whitespace-nowrap">
+          <span className="text-uppercase fw-medium text-nowrap" style={{ fontSize: '10px' }}>
             {format(dateObj, 'MM / yy')}
           </span>
-          <span className="text-xs lg:text-sm text-gray-500 font-normal whitespace-nowrap">
-            {format(dateObj, 'dd / MMM / yyyy', { locale: ru })}
+          <span className="text-secondary fw-normal text-nowrap" style={{ fontSize: '0.875rem' }}>
+            {format(dateObj, 'dd / MMM / yyyy', { locale: dateLocale })}
           </span>
         </div>
 
-        {/* Суммы */}
         {!hasSelectedOrder && (
-          <div className="w-auto lg:w-[150px] shrink-0 flex flex-col text-left">
-            <span className="text-xs text-gray-400 whitespace-nowrap">
-              {stats.totalUSD} <span className="text-[10px]">USD</span>
+          <div
+            className="d-flex flex-column text-start flex-shrink-0"
+            style={{ width: '140px' }}
+          >
+            <span className="text-body-tertiary text-nowrap" style={{ fontSize: '0.75rem' }}>
+              {stats.totalUSD} <span style={{ fontSize: '10px' }}>USD</span>
             </span>
-            <span className="text-sm font-medium text-gray-500 whitespace-nowrap">
+            <span className="text-secondary fw-medium text-nowrap" style={{ fontSize: '0.875rem' }}>
               {stats.totalUAH}{' '}
-              <span className="text-[10px] font-medium">UAH</span>
+              <span className="fw-medium" style={{ fontSize: '10px' }}>
+                UAH
+              </span>
             </span>
           </div>
         )}
       </div>
 
-      {/* Стрелочка активного прихода */}
       {isSelected && (
-        <div className="absolute right-0 top-0 bottom-0 w-8 bg-gray-200 flex items-center justify-center rounded-r-md">
-          <ChevronRight className="w-5 h-5 text-gray-500" />
+        <div
+          className="position-absolute end-0 top-0 bottom-0 bg-secondary-subtle d-flex align-items-center justify-content-center rounded-end-2"
+          style={{ width: '2rem' }}
+        >
+          <ChevronRight className="text-secondary" style={{ width: '1.25rem', height: '1.25rem' }} />
         </div>
       )}
 
-      {/* Кнопка удаления для десктопа */}
       {!hasSelectedOrder && (
-        <div className="hidden lg:flex w-8 shrink-0 justify-end">
+        <div className="d-none d-lg-flex flex-shrink-0 justify-content-end">
           <button
+            type="button"
             onClick={(e) => onDeleteClick(e, order.id)}
-            className="text-gray-400 hover:text-red-500 transition p-2"
+            className="btn btn-link text-secondary p-2 text-decoration-none"
+            aria-label="Delete order"
           >
-            <Trash2 className="w-5 h-5" />
+            <Trash2 style={{ width: '1.25rem', height: '1.25rem' }} />
           </button>
         </div>
       )}

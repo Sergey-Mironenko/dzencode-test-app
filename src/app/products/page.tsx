@@ -2,11 +2,15 @@
 
 import { useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import dynamic from 'next/dynamic';
 import { RootState } from '@/store/store';
 import { deleteProduct } from '@/store/inventorySlice';
-import DeleteModal from '@/components/DeleteModal';
 import ProductFilter from '@/components/ProductFilter';
 import ProductsList from '@/components/ProductsList';
+
+const DeleteModal = dynamic(() => import('@/components/DeleteModal'), {
+  ssr: false,
+});
 
 export default function ProductsPage() {
   const dispatch = useDispatch();

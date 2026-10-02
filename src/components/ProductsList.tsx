@@ -2,6 +2,7 @@
 
 import { Product, Order } from '@/types/index';
 import { ProductCard } from './ProductCard';
+import { useLanguage } from './LanguageContext';
 
 interface ProductsListProps {
   products: Product[];
@@ -14,9 +15,11 @@ export default function ProductsList({
   orders,
   onDeleteClick,
 }: ProductsListProps) {
+  const { t } = useLanguage();
+
   return (
-    <div className="overflow-x-auto pb-5 sm:pb-5 md:pb-6 lg:pb-6 px-2 sm:px-3 md:px-4 lg:px-4">
-      <div className="w-max min-w-full flex flex-col gap-2 sm:gap-2.5 md:gap-3 lg:gap-3">
+    <div className="table-responsive pb-4 pb-sm-4 pb-md-4 pb-lg-4 px-2 px-sm-3 px-md-4 px-lg-4">
+      <div className="d-flex flex-column gap-2 gap-sm-2.5 gap-md-3 gap-lg-3" style={{ minWidth: 'fit-content' }}>
         {products.map((product) => {
           const order = orders.find((o) => o.id === product.order);
           return (
@@ -30,8 +33,8 @@ export default function ProductsList({
         })}
 
         {products.length === 0 && (
-          <div className="text-center py-12 text-gray-500 bg-white border border-gray-200 rounded-md">
-            Продукты не найдены
+          <div className="text-center py-5 text-secondary bg-white border border-secondary-subtle rounded-2">
+            {t('noProductsFound')}
           </div>
         )}
       </div>
