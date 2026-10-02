@@ -27,6 +27,8 @@ export default function AddProductModal({ isOpen, onClose, orderId }: AddProduct
   const [title, setTitle] = useState('');
   const [serialNumber, setSerialNumber] = useState('');
   const [type, setType] = useState('Monitors');
+  const [owner, setOwner] = useState('');
+  const [groupName, setGroupName] = useState('');
   const [specification, setSpecification] = useState('Specification 1');
   const [usdPrice, setUsdPrice] = useState('');
   const [uahPrice, setUahPrice] = useState('');
@@ -89,12 +91,14 @@ export default function AddProductModal({ isOpen, onClose, orderId }: AddProduct
           { value: Number(uahPrice), symbol: 'UAH', isDefault: 1 },
         ],
         order: orderId,
-        owner: null,
-        groupName: null,
+        owner: owner.trim() || null,
+        groupName: groupName.trim() || null,
       })
     );
 
     setTitle('');
+    setOwner('');
+    setGroupName('');
     setSerialNumber('');
     setUsdPrice('');
     setUahPrice('');
@@ -146,6 +150,34 @@ export default function AddProductModal({ isOpen, onClose, orderId }: AddProduct
                 className={`form-control form-control-sm ${errors.title ? 'is-invalid border-danger' : 'border-secondary-subtle'}`}
               />
               {errors.title && <div className="invalid-feedback" style={{ fontSize: '0.75rem' }}>{errors.title}</div>}
+            </div>
+
+            <div className="row g-3">
+              <div className="col-12 col-sm-6">
+                <label className="form-label text-secondary fw-semibold mb-1" style={{ fontSize: '0.75rem' }}>
+                  {t('productOwnerLabel')}
+                </label>
+                <input 
+                  type="text"
+                  value={owner}
+                  onChange={(e) => setOwner(e.target.value)}
+                  placeholder={t('productOwnerPlaceholder')}
+                  className="form-control form-control-sm border-secondary-subtle"
+                />
+              </div>
+
+              <div className="col-12 col-sm-6">
+                <label className="form-label text-secondary fw-semibold mb-1" style={{ fontSize: '0.75rem' }}>
+                  {t('productGroupLabel')}
+                </label>
+                <input 
+                  type="text"
+                  value={groupName}
+                  onChange={(e) => setGroupName(e.target.value)}
+                  placeholder={t('productGroupPlaceholder')}
+                  className="form-control form-control-sm border-secondary-subtle"
+                />
+              </div>
             </div>
 
             <div className="row g-3">

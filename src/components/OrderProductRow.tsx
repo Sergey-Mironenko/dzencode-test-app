@@ -7,9 +7,10 @@ import { useLanguage } from './LanguageContext';
 
 interface OrderProductRowProps {
   product: Product;
+  onDelete?: () => void;
 }
 
-function OrderProductRowComponent({ product }: OrderProductRowProps) {
+function OrderProductRowComponent({ product, onDelete }: OrderProductRowProps) {
   const { t } = useLanguage();
 
   const isFree = product.status === 'Свободен';
@@ -87,6 +88,7 @@ function OrderProductRowComponent({ product }: OrderProductRowProps) {
         type="button"
         className="order-product-delete btn btn-link text-secondary p-2 flex-shrink-0"
         aria-label="Delete product"
+        onClick={onDelete}
       >
         <Trash2
           style={{

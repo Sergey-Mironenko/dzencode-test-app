@@ -117,13 +117,10 @@ function OrderCardComponent({
             style={{ width: '140px' }}
           >
             <span className="text-body-tertiary text-nowrap" style={{ fontSize: '0.75rem' }}>
-              {stats.totalUSD} <span style={{ fontSize: '10px' }}>USD</span>
+              {`${stats.totalUSD} USD`}
             </span>
             <span className="text-secondary fw-medium text-nowrap" style={{ fontSize: '0.875rem' }}>
-              {stats.totalUAH}{' '}
-              <span className="fw-medium" style={{ fontSize: '10px' }}>
-                UAH
-              </span>
+              {`${stats.totalUAH} UAH`}
             </span>
           </div>
         )}

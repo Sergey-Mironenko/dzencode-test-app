@@ -41,6 +41,10 @@ const translations = {
     addProductTitle: 'Добавить продукт в приход',
     productNameLabel: 'Название продукта*',
     productNamePlaceholder: 'Например: Monitor LG UltraGear 27',
+    productOwnerLabel: 'Владелец',
+    productOwnerPlaceholder: 'Например: Сергей Мироненко',
+    productGroupLabel: 'Группа',
+    productGroupPlaceholder: 'Например: Группа 1',
     serialNumberLabel: 'Серийный номер*',
     typeLabel: 'Тип*',
     priceUsdLabel: 'Цена USD*',
@@ -51,6 +55,12 @@ const translations = {
     errSerialNumberInvalid: 'Укажите корректный числовой серийный номер',
     errPriceUsd: 'Укажите цену в USD (> 0)',
     errPriceUah: 'Укажите цену в UAH (> 0)',
+    objectGeolocation: 'Геолокация объектов',
+    place: 'Главный офис / Склад',
+    analyticsLoading: 'Загрузка данных для аналитики...',
+    analytics: 'Аналитика по приходам и продуктам',
+    dynamics: 'Динамика приходов (по месяцам)',
+    amount: 'Количество техники по типам',
   },
   en: {
     inventory: 'Inventory',
@@ -88,6 +98,10 @@ const translations = {
     addProductTitle: 'Add product to order',
     productNameLabel: 'Product Name*',
     productNamePlaceholder: 'e.g. Monitor LG UltraGear 27',
+    productOwnerLabel: 'Product Owner',
+    productOwnerPlaceholder: 'e.g. Sergey Mironenko',
+    productGroupLabel: 'Group',
+    productGroupPlaceholder: 'e.g. Group 1',
     serialNumberLabel: 'Serial Number*',
     typeLabel: 'Type*',
     priceUsdLabel: 'Price USD*',
@@ -98,6 +112,12 @@ const translations = {
     errSerialNumberInvalid: 'Specify a valid numeric serial number',
     errPriceUsd: 'Specify price in USD (> 0)',
     errPriceUah: 'Specify price in UAH (> 0)',
+    objectGeolocation: 'Object geolocation',
+    place: 'Head Office / Warehouse',
+    analyticsLoading: 'Loading data for analytics...',
+    analytics: 'Analytics by revenue and products',
+    dynamics: 'Dynamics of receipts (by month)',
+    amount: 'Number of vehicles by type',
   },
 };
 
@@ -107,7 +127,7 @@ interface LanguageContextType {
   t: (key: keyof typeof translations['ru']) => string;
 }
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+export const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<Language>('ru');

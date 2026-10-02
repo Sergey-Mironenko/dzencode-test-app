@@ -21,7 +21,10 @@ const initialProducts: Product[] = [
     type: 'Monitors',
     specification: 'Specification 1',
     guarantee: { start: '2017-04-07 12:09:33', end: '2025-01-06 12:09:33' },
-    price: [{ value: 2500, symbol: 'UAH', isDefault: 1 }],
+    price: [
+      { value: 100, symbol: 'USD', isDefault: 0 },
+      { value: 2500, symbol: 'UAH', isDefault: 1 }
+    ],
     order: 1,
     date: '2017-02-10 12:09:33',
     status: 'Свободен',
@@ -37,7 +40,10 @@ const initialProducts: Product[] = [
     type: 'Monitors',
     specification: 'Specification 2',
     guarantee: { start: '2017-06-06 12:09:33', end: '2025-10-06 12:09:33' },
-    price: [{ value: 3500, symbol: 'UAH', isDefault: 1 }],
+    price: [
+      { value: 140, symbol: 'USD', isDefault: 0 },
+      { value: 3500, symbol: 'UAH', isDefault: 1 }
+    ],
     order: 2,
     date: '2017-04-12 12:09:33',
     status: 'В ремонте',
@@ -53,7 +59,10 @@ const initialProducts: Product[] = [
     type: 'Laptops',
     specification: 'Specification 3',
     guarantee: { start: '2017-05-06 12:09:33', end: '2025-09-06 12:09:33' },
-    price: [{ value: 35000, symbol: 'UAH', isDefault: 1 }],
+    price: [
+      { value: 1200, symbol: 'USD', isDefault: 0 },
+      { value: 35000, symbol: 'UAH', isDefault: 1 }
+    ],
     order: 3,
     date: '2017-06-08 12:09:33',
     status: 'Свободен',
@@ -69,7 +78,10 @@ const initialProducts: Product[] = [
     type: 'Laptops',
     specification: 'Specification 4',
     guarantee: { start: '2017-04-06 12:09:33', end: '2025-08-06 12:09:33' },
-    price: [{ value: 18000, symbol: 'UAH', isDefault: 1 }],
+    price: [
+      { value: 600, symbol: 'USD', isDefault: 0 },
+      { value: 18000, symbol: 'UAH', isDefault: 1 }
+    ],
     order: 4,
     date: '2017-09-10 12:09:33',
     status: 'Свободен',
@@ -85,7 +97,10 @@ const initialProducts: Product[] = [
     type: 'Monitors',
     specification: 'Specification 5',
     guarantee: { start: '2017-10-01 12:09:33', end: '2026-01-01 12:09:33' },
-    price: [{ value: 12000, symbol: 'UAH', isDefault: 1 }],
+    price: [
+      { value: 400, symbol: 'USD', isDefault: 0 },
+      { value: 12000, symbol: 'UAH', isDefault: 1 }
+    ],
     order: 5,
     date: '2017-10-16 12:09:33',
     status: 'В ремонте',
