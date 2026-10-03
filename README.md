@@ -37,6 +37,11 @@ This project leverages a modern front-end stack and various tools to meet both b
 *   **Product List & Filtering:** Displays all available products and includes a select dropdown filter to sort them by product type[cite: 7].
 *   **Detailed Product Cards:** Each product displays its name, type, guarantee dates in multiple formats, price in different currencies, and the name of the order it belongs to[cite: 7].
 
+## Database Schema
+The database architecture designed for this project can be viewed and compared in MySQL Workbench[cite: 8]. 
+*   **Prisma Schema:** Located at `prisma/schema.prisma` (handles automated migrations and ORM typing).
+*   **MySQL Workbench Model:** The visual ER-diagram file (`database_schema.mwb` or SQL creation script) is located in the root directory under the `docs/` folder for review and comparison.
+
 ## Installation & Setup
 *(Follow these steps to run the project locally)*
 
@@ -69,34 +74,28 @@ This project leverages a modern front-end stack and various tools to meet both b
 5.  **Start the Backend Server:**
     From the root directory, start the server to initialize the GraphQL API, database connection, and WebSocket session counters:
     ```bash
-    npm run server
+    node server.js
     ```
 
 6.  **Start the Frontend Application:**
-    Open a new terminal window (while keeping the server running) and start the React/Next.js client application:
+    Open a new terminal window (while keeping the server running) and start the React/Next.js client application at localhost:3000 :
     ```bash
     npm run dev
     ```
 
-7.  **Run Unit Tests:**
-    ```bash
-    npm test
-    ```
-
-## Database Schema
-The database architecture designed for this project can be viewed and compared in MySQL Workbench[cite: 8]. 
-*   **Prisma Schema:** Located at `prisma/schema.prisma` (handles automated migrations and ORM typing).
-*   **MySQL Workbench Model:** The visual ER-diagram file (`database_schema.mwb` or SQL creation script) is located in the root directory under the `docs/` folder for review and comparison.
-
 ## Docker Deployment
 The application can be deployed using Docker, packaging the app with all its environments and dependencies[cite: 8].
+Application will be available at `localhost:3000`
 
-1.  **Build the Docker image:**
+1.  **Build and Run with Docker Compose:**
     ```bash
-    docker build -t orders-products-spa .
+    sudo docker compose up --build -d .
     ```
 
-2.  **Run the container:**
+## Testing
+*(Follow these steps to run unit tests)*
+
+1.  **Run Unit Tests:**
     ```bash
-    docker run -p 3000:3000 orders-products-spa
+    npm test
     ```
