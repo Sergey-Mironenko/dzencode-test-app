@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Orders & Products SPA
 
-## Getting Started
+## Description
+This is a Single Page Application (SPA) designed to manage inventory, specifically focusing on Orders and Products[cite: 6]. The application is built using a component-based architecture and implements routing for seamless navigation[cite: 6]. It includes dynamic UI elements, such as a Top Menu displaying the current date and a real-time clock, alongside an active user session counter[cite: 7]. 
 
-First, run the development server:
+The project fulfills all base requirements and has been extended with advanced Junior+ tier features, ensuring high performance, scalability, and code quality.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Technologies Used
+This project leverages a modern front-end stack and various tools to meet both base and advanced requirements:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+*   **Core Framework:** React.js (latest version)[cite: 8].
+*   **Server-Side Rendering (SSR):** Next.js integration[cite: 9].
+*   **Language:** TypeScript, utilizing modern ES6+ features such as arrow functions, spread operators, and template strings[cite: 6, 9].
+*   **State Management:** Redux for handling global state[cite: 6, 8].
+*   **Styling & UI:** CSS structured with BEM architecture and the Bootstrap framework for responsive design[cite: 8].
+*   **Real-time Communication:** WebSocket (Socket.io) to manage live connections and track active session counters in real-time[cite: 6, 7, 8].
+*   **Data Fetching & APIs:** REST API integration using Axios or Fetch[cite: 8], supplemented by **GraphQL** specifically implemented for user registration and authentication logic.
+*   **Advanced Features (Junior+):** Implementation of i18n for internationalization, JWT for secure tokens, Web Storage, Lazy Loading for optimized performance, Charts, and Maps[cite: 9].
+*   **Quality Assurance & DevOps:** Built-in form validation, Unit-tests[cite: 8, 9], and an automated CI pipeline with GitHub Actions that runs tests and blocks merging into `main` if checks fail.
+*   **Version Control & Deployment:** Git for repository management and Docker for packaging the application with all its dependencies into a container[cite: 8].
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Key Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Global UI & Navigation
+*   **Navigation Menu:** Contains route links to navigate between the Orders and Products pages[cite: 7].
+*   **Top Menu:** Displays the current date and time in real-time in the top right corner[cite: 7].
+*   **Active Sessions Counter:** Utilizes WebSocket to show the exact number of active application sessions across different browsers in real-time[cite: 7].
+*   **Animations:** Uses transition effects (e.g., animate.css) when switching between routes and components for a smooth user experience[cite: 6].
 
-## Learn More
+### Orders Management
+*   **Order List:** Displays a comprehensive list showing the order name, the number of products included, and creation dates formatted in two different ways[cite: 7].
+*   **Financial Summaries:** Calculates and displays the total sum of the order, equal to the sum of all product prices within it, shown in two currencies[cite: 7].
+*   **Interactive Details:** Clicking on a specific order opens a closable information block directly next to it[cite: 7].
+*   **Deletion Handling:** Includes a delete button for orders that triggers a confirmation popup upon clicking[cite: 7].
 
-To learn more about Next.js, take a look at the following resources:
+### Products Management
+*   **Product List & Filtering:** Displays all available products and includes a select dropdown filter to sort them by product type[cite: 7].
+*   **Detailed Product Cards:** Each product displays its name, type, guarantee dates in multiple formats, price in different currencies, and the name of the order it belongs to[cite: 7].
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Installation & Setup
+*(Follow these steps to run the project locally)*
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1.  **Clone the repository:**
+    ```bash
+    git clone <your-repository-url>
+    cd <repository-folder>
+    ```
 
-## Deploy on Vercel
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3.  **Environment Variables:**
+    Create a `.env` file in the root directory and configure the necessary variables for the application, JWT authentication, and the database connection:
+    ```env
+    NEXT_PUBLIC_URL=http://localhost:4000
+    SECRET_KEY=super_secret_jwt_key_123
+    DATABASE_URL="mysql://root:1234@localhost:3306/inventory_app"
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4.  **Database Setup:**
+    Ensure you have a local MySQL server running. Create an empty database named `inventory_app`, then run Prisma migrations to apply the schema (e.g., creating the `User` table for GraphQL authentication):
+    ```bash
+    npx prisma migrate dev
+    ```
+    *(Note: This command applies the schema to the database and automatically generates the Prisma Client).*
+
+5.  **Start the Backend Server:**
+    From the root directory, start the server to initialize the GraphQL API, database connection, and WebSocket session counters:
+    ```bash
+    npm run server
+    ```
+
+6.  **Start the Frontend Application:**
+    Open a new terminal window (while keeping the server running) and start the React/Next.js client application:
+    ```bash
+    npm run dev
+    ```
+
+7.  **Run Unit Tests:**
+    ```bash
+    npm test
+    ```
+
+## Database Schema
+The database architecture designed for this project can be viewed and compared in MySQL Workbench[cite: 8]. 
+*   **Prisma Schema:** Located at `prisma/schema.prisma` (handles automated migrations and ORM typing).
+*   **MySQL Workbench Model:** The visual ER-diagram file (`database_schema.mwb` or SQL creation script) is located in the root directory under the `docs/` folder for review and comparison.
+
+## Docker Deployment
+The application can be deployed using Docker, packaging the app with all its environments and dependencies[cite: 8].
+
+1.  **Build the Docker image:**
+    ```bash
+    docker build -t orders-products-spa .
+    ```
+
+2.  **Run the container:**
+    ```bash
+    docker run -p 3000:3000 orders-products-spa
+    ```
